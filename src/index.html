@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Doomsheek code</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../node_modules/xterm/css/xterm.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h11l3 3v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 4v6h9V4M8 14h8v7H8z" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><path d="M3 5h18v14H3z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="m7 10 3 2-3 2M12 14h5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+    <symbol id="i-git" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="6" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="18" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 8.5v7M8.5 6.5h7.5a2 2 0 0 1 2 2v.5" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-explorer" viewBox="0 0 24 24"><path d="M3 5h7l2 2h9v12H3z" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 4h16v12H8l-4 4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 4v5h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.3M21 5v5h-5M21 12a9 9 0 0 1-15.5 6.3M3 19v-5h5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-attach" viewBox="0 0 24 24"><path d="m21 11-8.5 8.5a5 5 0 0 1-7-7l9-9a3.5 3.5 0 1 1 5 5L11 16.5a2 2 0 1 1-3-3L16 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1" fill="currentColor"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12 20 4l-4 16-4-8-8-0z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 6h16M9 6V4h6v2M6 6l1 14h10l1-14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4l11-11-4-4L4 16v4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-branch" viewBox="0 0 24 24"><circle cx="6" cy="3" r="2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="6" cy="18" r="2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="18" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M6 5v11M6 16c0-5 5-7 12-8" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-agent" viewBox="0 0 24 24"><path d="M12 3l2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="20" r="1.5" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<div id="app">
+  <div id="topbar">
+    <a class="app-logo" id="app-logo" href="https://t.me/Doomshk" title="Открыть Telegram автора">Doomsheek code</a>
+    <div class="menubar">
+      <button class="menu-item" data-menu="file">File</button>
+      <button class="menu-item" data-menu="edit">Edit</button>
+      <button class="menu-item" data-menu="selection">Selection</button>
+      <button class="menu-item" data-menu="view">View</button>
+      <button class="menu-item" data-menu="go">Go</button>
+      <button class="menu-item" data-menu="more">⋯</button>
+    </div>
+    <span class="topbar-spacer"></span>
+    <button class="nav-btn" id="btn-toggle-sidebar" title="Скрыть/показать панель проводника">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="2.5" width="13" height="11" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 2.5v11" stroke="currentColor" stroke-width="1.3"/></svg>
+    </button>
+    <button class="nav-btn" id="btn-back" title="Назад">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3l-5 5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="nav-btn" id="btn-fwd" title="Вперёд">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="topbar-search">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="m13 13-2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <input id="topbar-search-input" placeholder="Поиск файла в проекте..." spellcheck="false">
+      <div class="topbar-search-results" id="topbar-search-results"></div>
+    </div>
+    <span class="topbar-spacer"></span>
+    <span id="toast" class="topbar-toast"></span>
+    <button class="nav-btn" id="btn-browser-top" title="Открыть встроенный браузер">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M1.5 8h13M8 1.5c2 2 3 4 3 6.5s-1 4.5-3 6.5c-2-2-3-4-3-6.5s1-4.5 3-6.5z" stroke="currentColor" stroke-width="1.3"/></svg>
+    </button>
+    <button class="nav-btn" id="btn-toggle-terminal-top" title="Показать/скрыть панель (Ctrl+J)">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="2.5" width="13" height="11" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M1.5 10h13" stroke="currentColor" stroke-width="1.3"/></svg>
+    </button>
+    <button class="nav-btn" id="btn-toggle-chat" title="Показать/скрыть чат агента (Ctrl+Alt+J)">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 3h12v8H6l-3 3V3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="nav-btn" id="btn-settings" title="Настройки (Ctrl+,)">
+      <svg width="14" height="14" viewBox="0 0 24 24"><use href="#i-settings"/></svg>
+    </button>
+    <div class="win-controls">
+      <button class="win-btn" id="win-min" title="Свернуть">
+        <svg width="10" height="10" viewBox="0 0 10 10"><path d="M0 5h10" stroke="currentColor" stroke-width="1"/></svg>
+      </button>
+      <button class="win-btn" id="win-max" title="Развернуть">
+        <svg width="10" height="10" viewBox="0 0 10 10"><rect x="0.5" y="0.5" width="9" height="9" fill="none" stroke="currentColor"/></svg>
+      </button>
+      <button class="win-btn win-close" id="win-close" title="Закрыть">
+        <svg width="10" height="10" viewBox="0 0 10 10"><path d="M0 0l10 10M10 0L0 10" stroke="currentColor" stroke-width="1"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="menu-dropdown" id="menu-dropdown"></div>
+
+  <div id="activity-bar">
+    <button class="ab-btn active" data-view="explorer" data-tip="Проводник"><svg><use href="#i-explorer"/></svg></button>
+    <button class="ab-btn" data-view="git" data-tip="Git"><svg><use href="#i-git"/></svg></button>
+    <button class="ab-btn" data-view="search" data-tip="Поиск"><svg><use href="#i-search"/></svg></button>
+  </div>
+
+  <div id="sidebar">
+    <div id="view-explorer" class="view active">
+      <div class="header">
+        <span id="explorer-title">Проводник</span>
+        <span style="display:flex;gap:2px">
+          <button class="ic small" id="btn-toggle-hidden" data-tip="Показать/скрыть скрытые"><svg><use href="#i-eye"/></svg></button>
+          <button class="ic small" id="btn-refresh-tree" data-tip="Обновить"><svg><use href="#i-refresh"/></svg></button>
+        </span>
+      </div>
+      <div id="tree"><div style="padding:8px;color:var(--fg2);font-size:12px">Откройте папку</div></div>
+    </div>
+
+    <div id="view-git" class="view">
+      <div class="header">
+        <span>Git</span>
+        <button class="ic small" id="git-refresh" data-tip="Обновить"><svg><use href="#i-refresh"/></svg></button>
+      </div>
+      <div id="git-content">
+        <div style="padding:8px;color:var(--fg2);font-size:12px">Откройте папку с git-репозиторием</div>
+      </div>
+    </div>
+
+    <div id="view-search" class="view">
+      <div class="header"><span>Поиск</span></div>
+      <div style="padding:8px;display:flex;flex-direction:column;gap:6px">
+        <input id="search-query" placeholder="Поиск по файлам...">
+        <div id="search-results" style="overflow:auto;max-height:calc(100vh - 180px)"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="resizer" id="resizer-sidebar" data-target="sidebar" title="Перетащи чтобы изменить ширину"></div>
+
+  <div id="editor-area">
+    <div id="tabs"></div>
+    <div id="welcome">
+      <div class="welcome-grid">
+        <div class="welcome-left">
+          <div class="welcome-subtitle" style="font-size:24px;color:var(--fg);margin-bottom:6px">Начнём</div>
+          <div class="welcome-subtitle">Бесплатный редактор кода с ИИ · BYOK</div>
+          <div class="welcome-actions">
+            <h3>Начать</h3>
+            <a class="welcome-link" id="w-open">Открыть папку</a>
+            <a class="welcome-link" id="w-clone">Клонировать репозиторий</a>
+            <a class="welcome-link" id="w-new">Новый файл</a>
+            <a class="welcome-link" id="w-settings">Настроить API-ключи</a>
+          </div>
+          <div class="welcome-actions">
+            <h3>Помощь</h3>
+            <div class="welcome-hint"><kbd>Ctrl</kbd>+<kbd>K</kbd> — ИИ-редактирование</div>
+            <div class="welcome-hint"><kbd>Ctrl</kbd>+<kbd>P</kbd> — поиск файла</div>
+            <div class="welcome-hint"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> — палитра</div>
+            <div class="welcome-hint"><kbd>Ctrl</kbd>+<kbd>`</kbd> — терминал</div>
+            <div class="welcome-hint"><kbd>Ctrl</kbd>+<kbd>,</kbd> — настройки</div>
+          </div>
+        </div>
+        <div class="welcome-right">
+          <h3>Недавние</h3>
+          <div id="welcome-recent" class="welcome-recent"></div>
+        </div>
+      </div>
+    </div>
+    <div id="monaco" style="display:none"></div>
+    <div id="inline-prompt">
+      <textarea id="inline-text" placeholder="Опишите изменение... (Enter — сгенерировать, Esc — закрыть)"></textarea>
+      <pre id="inline-output" style="display:none"></pre>
+      <div class="row">
+        <span class="hint" id="inline-hint">Ctrl+K · ИИ изменит выделенный код</span>
+        <button id="inline-cancel">Отмена</button>
+        <button id="inline-submit" class="primary">Сгенерировать</button>
+      </div>
+    </div>
+
+    <div id="term-cmd-prompt">
+      <div class="header">
+        <span class="title">Команда для терминала</span>
+        <button class="close" id="term-cmd-close" title="Закрыть (Esc)">×</button>
+      </div>
+      <textarea id="term-cmd-input" placeholder="Опишите команду на естественном языке. Enter — сгенерировать, Esc — закрыть."></textarea>
+      <pre id="term-cmd-output" style="display:none"></pre>
+      <div class="row">
+        <span class="hint">Ctrl+K · модель сгенерирует команду для cmd.exe</span>
+        <button id="term-cmd-gen" class="primary">Сгенерировать</button>
+        <button id="term-cmd-insert" disabled>Вставить</button>
+        <button id="term-cmd-run" class="primary" disabled>Запустить</button>
+      </div>
+    </div>
+
+    <div id="diff-actions">
+      <span class="label" id="diff-label">ИИ-изменение</span>
+      <button class="accept" id="diff-accept"><svg style="width:12px;height:12px;vertical-align:-1px"><use href="#i-plus"/></svg> Принять <kbd>Tab</kbd></button>
+      <button class="reject" id="diff-reject"><svg style="width:12px;height:12px;vertical-align:-1px"><use href="#i-close"/></svg> Отклонить <kbd>Esc</kbd></button>
+    </div>
+
+    <div id="terminal-panel">
+      <div class="term-header">
+        <div class="term-tabs-left">
+          <button class="term-tab" data-tab="problems">Problems</button>
+          <button class="term-tab" data-tab="output">Output</button>
+          <button class="term-tab active" data-tab="terminal">Terminal</button>
+          <button class="term-more" title="Ещё">⋯</button>
+        </div>
+        <div class="term-tabs-right">
+          <span class="term-active-label" id="term-active-label"></span>
+          <div class="term-new-wrap">
+            <button class="term-btn" id="term-new" title="Новый терминал"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+            <button class="term-btn" id="term-new-dropdown" title="Выбрать профиль">
+              <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3l3 4 3-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <button class="term-btn term-btn-kill" id="term-kill" title="Удалить терминал (kill процесс)"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 4h8v9.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4z" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 4h11M6 4V2.5h4V4M6.5 7v5M9.5 7v5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+          <button class="term-btn" id="term-close" title="Скрыть панель (Ctrl+`)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        </div>
+      </div>
+      <div class="term-body">
+        <div id="terminal-host"></div>
+        <div class="term-sidebar" id="term-instances"></div>
+      </div>
+      <div class="term-profile-menu" id="term-profile-menu">
+        <div class="term-profile-item" data-shell="powershell">PowerShell</div>
+        <div class="term-profile-item" data-shell="pwsh">PowerShell 7 (pwsh)</div>
+        <div class="term-profile-item" data-shell="gitbash">Git Bash</div>
+        <div class="term-profile-item" data-shell="cmd">Command Prompt</div>
+        <div class="term-profile-item" data-shell="wsl">Ubuntu (WSL)</div>
+      </div>
+      <div class="term-more-menu" id="term-more-menu">
+        <div class="term-more-item" data-act="clear"><span class="tmi-label">Clear Terminal</span></div>
+        <div class="term-more-item" data-act="scroll-next"><span class="tmi-label">Scroll to Next Command</span><span class="tmi-kbd">Ctrl+DownArrow</span></div>
+        <div class="term-more-item" data-act="scroll-prev"><span class="tmi-label">Scroll to Previous Command</span><span class="tmi-kbd">Ctrl+UpArrow</span></div>
+        <div class="term-more-item" data-act="run-file"><span class="tmi-label">Run Active File</span></div>
+        <div class="term-more-item" data-act="run-selection"><span class="tmi-label">Run Selected Text</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="resizer" id="resizer-chat" data-target="chat" title="Перетащи чтобы изменить ширину"></div>
+
+  <div id="chat">
+    <div class="header chat-tabs-row">
+      <div class="chat-tabs">
+        <div class="chat-tab prev-tab" id="tab-prev" style="display:none">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4h10v8H5l-2 2V4z" stroke="currentColor" stroke-width="1.3"/></svg>
+          <span class="tab-name" id="tab-prev-name"></span>
+        </div>
+        <div class="chat-tab active" id="tab-current">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4h10v8H5l-2 2V4z" stroke="currentColor" stroke-width="1.3"/></svg>
+          <span class="tab-name" id="tab-current-name">Новый чат</span>
+          <button class="chat-tab-close" id="btn-close-chat" title="Закрыть">×</button>
+        </div>
+        <div class="chat-tab next-tab" id="tab-next" style="display:none">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 4h10v8H5l-2 2V4z" stroke="currentColor" stroke-width="1.3"/></svg>
+          <span class="tab-name" id="tab-next-name"></span>
+        </div>
+      </div>
+      <div class="chat-toolbar">
+        <button class="ic small" id="btn-new-chat" data-tip="Новый чат"><svg><use href="#i-plus"/></svg></button>
+        <button class="ic small" id="btn-chat-history" data-tip="История чатов"><svg><use href="#i-history"/></svg></button>
+        <button class="ic small" id="btn-chat-menu" data-tip="Меню чата">⋯</button>
+        <button class="ic small" id="btn-agents-panel" data-tip="Панель агентов">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M10 3v10" stroke="currentColor" stroke-width="1.3"/></svg>
+        </button>
+      </div>
+      <div class="chat-menu-popup" id="chat-menu-popup">
+        <div class="chat-menu-item" data-act="fork">Fork Chat</div>
+        <div class="chat-menu-item" data-act="copy-message">Copy Last Message</div>
+        <div class="chat-menu-item" data-act="copy-id">Copy Chat ID</div>
+        <div class="chat-menu-sep"></div>
+        <div class="chat-menu-item" data-act="settings">Настройки агента</div>
+      </div>
+    </div>
+    <div id="messages-wrap">
+      <div class="sticky-msg" id="sticky-msg"></div>
+      <div id="messages"></div>
+      <button id="scroll-down-btn" title="Вниз" style="display:none">
+        <svg viewBox="0 0 16 16" width="14" height="14"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </button>
+    </div>
+    <div id="changes-bar" class="changes-bar">
+      <span class="ct-label" id="changes-label"></span>
+      <button id="changes-review">Review</button>
+      <button id="changes-keep" class="accept">Keep All</button>
+      <button id="changes-undo" class="danger">Undo All</button>
+    </div>
+    <div class="input-wrap">
+      <div id="agent-status" class="agent-status">
+        <span class="agent-spinner"></span>
+        <span class="agent-status-text"></span>
+        <span class="agent-status-time"></span>
+      </div>
+      <div id="attachments"></div>
+      <div class="input-card">
+        <div class="context-row">
+          <button class="ctx-gauge" id="ctx-gauge" title="Память чата · % от контекста модели">
+            <svg viewBox="0 0 16 16">
+              <circle cx="8" cy="8" r="6" fill="none" stroke="#3a3a3a" stroke-width="2"></circle>
+              <circle id="ctx-gauge-ring" cx="8" cy="8" r="6" fill="none" stroke="#4ec9b0" stroke-width="2"
+                      stroke-dasharray="0 100" stroke-dashoffset="25" transform="rotate(-90 8 8)" stroke-linecap="round"></circle>
+            </svg>
+            <span id="ctx-gauge-pct">0%</span>
+          </button>
+          <div id="ctx-chips" style="display:contents"></div>
+        </div>
+        <textarea id="chat-input" placeholder="Спросите или попросите что-нибудь сделать..."></textarea>
+        <div class="input-bottom">
+          <div class="mode-pills">
+            <button class="pill" id="mode-ask" data-mode="ask">Ask</button>
+            <button class="pill active" id="mode-agent" data-mode="agent">Agent</button>
+          </div>
+          <select id="provider-select" class="mini" title="Провайдер"></select>
+          <select id="model-select" class="mini" title="Модель"></select>
+          <span class="spacer"></span>
+          <button class="ic tiny" id="btn-web" data-tip="Веб-поиск"><svg><use href="#i-globe"/></svg></button>
+          <button class="ic tiny" id="btn-attach" data-tip="Фото"><svg><use href="#i-attach"/></svg></button>
+          <input type="file" id="file-input" accept="image/*" multiple style="display:none">
+          <button class="send-btn stop" id="btn-stop" data-tip="Стоп" style="display:none"><span class="stop-square"></span></button>
+          <button class="send-btn" id="btn-send" data-tip="Отправить"><svg><use href="#i-send"/></svg></button>
+        </div>
+        <span id="chat-status" style="display:none"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="agents-panel" class="agents-panel">
+    <div class="agents-search-wrap">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="m13 13-2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <input id="agents-search" placeholder="Search Agents..." spellcheck="false">
+    </div>
+    <button class="agents-action primary" id="agents-new">New Agent</button>
+    <button class="agents-action" id="agents-new-cloud">New Cloud Agent ↗</button>
+    <div class="agents-list" id="agents-list"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="settings-modal">
+  <div class="modal">
+    <div class="header">
+      <h2>Настройки</h2>
+      <button class="ic" id="settings-close"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="settings-tabs">
+      <button class="settings-tab active" data-tab="general">General</button>
+      <button class="settings-tab" data-tab="providers">Провайдеры</button>
+      <button class="settings-tab" data-tab="github">GitHub</button>
+    </div>
+    <div class="body">
+      <div class="settings-panel" data-panel="general">
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">Авто-подтверждение действий агента</div>
+            <div class="setting-desc">Когда ВКЛ — агент удаляет файлы и запускает команды без диалога подтверждения. Делает работу быстрее, но опаснее.</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="setting-auto-confirm">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">Показывать скрытые файлы</div>
+            <div class="setting-desc">Файлы и папки начинающиеся с точки (.git, .env и т.п.)</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="setting-show-hidden">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">Отключить системный прокси</div>
+            <div class="setting-desc">Все API-запросы пойдут напрямую, игнорируя настройки прокси Windows / переменные HTTP_PROXY. Помогает если корпоративный прокси / VPN ломает SSL или режет соединения к OpenAI/Anthropic. <b>Требует перезапуск приложения.</b></div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="setting-disable-proxy">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">Свой прокси (опционально)</div>
+            <div class="setting-desc">Если оставить пустым и «Отключить прокси» выключено — используется системный прокси. Формат: <code>http://host:port</code> или <code>socks5://host:port</code>. Игнорируется если «Отключить системный прокси» включено. <b>Требует перезапуск.</b></div>
+          </div>
+          <input type="text" id="setting-custom-proxy" placeholder="например http://127.0.0.1:8080" style="width:240px;background:var(--bg2);border:1px solid var(--border);color:var(--fg);padding:6px 8px;border-radius:3px;font-family:Consolas,monospace;font-size:12px">
+        </div>
+      </div>
+      <div class="settings-panel" data-panel="providers" style="display:none">
+        <p style="color:var(--fg2);margin-bottom:12px;font-size:12px">Ключи хранятся локально, шифруются ОС (DPAPI на Windows). «Проверить» сначала пробует /models, при ошибке — минимальный chat-запрос.</p>
+        <div class="provider-list" id="provider-list"></div>
+      </div>
+      <div class="settings-panel" data-panel="github" style="display:none">
+        <div id="github-status-row" style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg2);border-radius:6px;margin-bottom:14px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="color:var(--fg)"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.3.1 1.9 1.3 1.9 1.3 1.1 1.9 3 1.4 3.7 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.3v3.4c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+          <div style="flex:1">
+            <div id="github-status-text" style="color:var(--fg);font-size:13px">Не подключено</div>
+            <div id="github-status-sub" style="color:var(--fg2);font-size:11px;margin-top:2px">Подключи аккаунт GitHub чтобы push/pull/commit работали без ручного ввода пароля</div>
+          </div>
+          <button id="github-logout" style="display:none">Отключить</button>
+        </div>
+        <div id="github-login-form">
+          <div style="margin-bottom:10px">
+            <label style="display:block;color:var(--fg2);font-size:11px;margin-bottom:4px">GitHub username</label>
+            <input id="github-username" type="text" placeholder="например octocat" style="width:100%">
+          </div>
+          <div style="margin-bottom:10px">
+            <label style="display:block;color:var(--fg2);font-size:11px;margin-bottom:4px">Personal Access Token</label>
+            <input id="github-token" type="password" placeholder="ghp_..." style="width:100%" autocomplete="off" spellcheck="false">
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="github-create-token" type="button">Создать токен на GitHub ↗</button>
+            <button id="github-save" class="primary">Подключить</button>
+            <span id="github-msg" style="color:var(--fg2);font-size:11px;margin-left:8px"></span>
+          </div>
+          <div style="margin-top:14px;padding:10px;background:rgba(79,195,247,0.08);border-left:3px solid #4fc3f7;border-radius:4px;font-size:11px;color:var(--fg2);line-height:1.5">
+            <b style="color:var(--fg)">Как создать токен:</b><br>
+            1. Нажми «Создать токен на GitHub ↗»<br>
+            2. На странице GitHub поставь нужные галочки: минимум — <code style="background:rgba(255,255,255,0.08);padding:1px 4px;border-radius:3px">repo</code> (для приватных репозиториев) и <code style="background:rgba(255,255,255,0.08);padding:1px 4px;border-radius:3px">workflow</code> (для GitHub Actions)<br>
+            3. Внизу нажми «Generate token», скопируй (он начинается с ghp_)<br>
+            4. Вставь сюда + введи свой username и жми «Подключить»<br>
+            <b style="color:var(--fg)">Безопасность:</b> токен сохраняется локально в шифрованном виде. Никуда не отправляется.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <button id="settings-check-all">Проверить все</button>
+      <button id="settings-save" class="primary">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="commit-modal">
+  <div class="modal" style="max-width:500px">
+    <div class="header">
+      <h2>Git commit</h2>
+      <button class="ic" id="commit-close"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="body">
+      <textarea id="commit-message" placeholder="Сообщение коммита..." style="width:100%;min-height:100px;font-family:inherit"></textarea>
+      <div style="margin-top:8px;color:var(--fg2);font-size:11px" id="commit-info"></div>
+    </div>
+    <div class="footer">
+      <button id="commit-cancel">Отмена</button>
+      <button id="commit-do" class="primary">Создать коммит</button>
+      <button id="commit-push" class="primary">Коммит + Push</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="clone-modal">
+  <div class="modal" style="max-width:560px">
+    <div class="header">
+      <h2>Клонировать репозиторий</h2>
+      <button class="ic" id="clone-close"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="body" style="display:flex;flex-direction:column;gap:8px">
+      <label style="font-size:12px;color:var(--fg2)">URL репозитория</label>
+      <input id="clone-url" placeholder="https://github.com/user/repo.git">
+      <label style="font-size:12px;color:var(--fg2)">Родительская папка</label>
+      <div style="display:flex;gap:6px">
+        <input id="clone-parent" style="flex:1" placeholder="C:\\projects">
+        <button id="clone-browse">Выбрать...</button>
+      </div>
+      <label style="font-size:12px;color:var(--fg2)">Имя папки (необязательно)</label>
+      <input id="clone-name" placeholder="my-repo">
+      <div id="clone-status" style="font-size:11px;color:var(--fg2);margin-top:8px"></div>
+    </div>
+    <div class="footer">
+      <button id="clone-cancel">Отмена</button>
+      <button id="clone-do" class="primary">Клонировать</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="history-modal">
+  <div class="modal" style="max-width:560px">
+    <div class="header">
+      <h2>История чатов</h2>
+      <button class="ic" id="history-close"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="body">
+      <div id="history-list" style="display:flex;flex-direction:column;gap:4px"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="changes-modal">
+  <div class="modal" style="max-width:720px">
+    <div class="header">
+      <h2>Изменённые файлы</h2>
+      <button class="ic" id="changes-close"><svg><use href="#i-close"/></svg></button>
+    </div>
+    <div class="body" style="padding:8px">
+      <div id="changes-list" style="display:flex;flex-direction:column;gap:2px;max-height:60vh;overflow:auto"></div>
+      <div style="display:flex;gap:6px;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);margin-top:10px">
+        <button id="changes-modal-undo" class="danger">Undo All</button>
+        <button id="changes-modal-keep" class="accept">Keep All</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="palette-modal">
+  <div class="modal" style="max-width:600px">
+    <div class="body" style="padding:8px">
+      <input id="palette-input" placeholder="Команда или путь..." style="width:100%">
+      <div id="palette-list" style="max-height:400px;overflow:auto;margin-top:8px"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="prompt-modal">
+  <div class="modal" style="max-width:420px">
+    <div class="header"><span id="prompt-title">Ввод</span><button id="prompt-cancel-x" class="ic small">✕</button></div>
+    <div class="body" style="padding:10px;display:flex;flex-direction:column;gap:8px">
+      <div id="prompt-message" style="font-size:12px;color:var(--fg2)"></div>
+      <input id="prompt-input" type="text" style="width:100%">
+      <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:4px">
+        <button id="prompt-cancel">Отмена</button>
+        <button id="prompt-ok" class="primary">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../node_modules/xterm/lib/xterm.js"></script>
+<script src="../node_modules/@xterm/addon-fit/lib/addon-fit.js"></script>
+<script>
+  self.MonacoEnvironment = {
+    getWorkerUrl: function (_moduleId, label) {
+      const base = '../node_modules/monaco-editor/min/vs';
+      const code = `self.MonacoEnvironment = { baseUrl: '${base}' }; importScripts('${base}/base/worker/workerMain.js');`;
+      return 'data:text/javascript;charset=utf-8,' + encodeURIComponent(code);
+    }
+  };
+</script>
+<div id="ctx-menu" class="ctx-menu"></div>
+<div id="image-viewer" class="image-viewer"><img id="image-viewer-img"><div class="iv-info"></div></div>
+
+<!-- Встроенный браузер (для GitHub/Google OAuth и т.п.) -->
+<div id="browser-modal" class="modal-backdrop">
+  <div class="browser-window">
+    <div class="browser-toolbar">
+      <button class="browser-btn" id="browser-back" title="Назад">‹</button>
+      <button class="browser-btn" id="browser-fwd" title="Вперёд">›</button>
+      <button class="browser-btn" id="browser-reload" title="Обновить">⟳</button>
+      <input id="browser-url" class="browser-url" placeholder="https://..." spellcheck="false">
+      <button class="browser-btn" id="browser-go" title="Перейти">→</button>
+      <button class="browser-btn" id="browser-quick-google" title="Google">G</button>
+      <button class="browser-btn" id="browser-quick-github" title="GitHub">⌥</button>
+      <button class="browser-btn browser-close" id="browser-close" title="Закрыть">×</button>
+    </div>
+    <webview id="inapp-webview" src="about:blank" allowpopups
+             partition="persist:inapp-browser"
+             useragent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"></webview>
+  </div>
+</div>
+<script src="../node_modules/monaco-editor/min/vs/loader.js"></script>
+<script>
+  require.config({ paths: { 'vs': '../node_modules/monaco-editor/min/vs' } });
+  require(['vs/editor/editor.main'], function () {
+    window.__monacoReady = true;
+    window.dispatchEvent(new Event('monaco-ready'));
+  });
+</script>
+<script src="renderer.js"></script>
+</body>
+</html>

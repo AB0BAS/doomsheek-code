@@ -1,0 +1,78 @@
+{
+  "name": "doomsheek-code",
+  "productName": "Doomsheek code",
+  "version": "0.1.0",
+  "description": "Doomsheek code — Free AI code editor with BYOK (bring your own key) for 22 providers",
+  "main": "main.js",
+  "homepage": "https://t.me/Doomshk",
+  "author": {
+    "name": "Doomshk",
+    "url": "https://t.me/Doomshk"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --enable-logging",
+    "dist": "electron-builder --win nsis --x64",
+    "pack": "electron-builder --dir"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "@xterm/addon-fit": "^0.11.0",
+    "monaco-editor": "^0.52.0",
+    "simple-git": "^3.36.0",
+    "xterm": "^5.3.0"
+  },
+  "build": {
+    "appId": "com.doomshk.doomsheek-code",
+    "productName": "Doomsheek code",
+    "copyright": "Copyright © 2026 Doomshk — https://t.me/Doomshk",
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "logo.png",
+      "src/**/*",
+      "!src/renderer.backup.js",
+      "node_modules/**/*",
+      "!**/*.md",
+      "!**/_*.txt",
+      "!electron-launch.log",
+      "!rendertest.txt",
+      "!run_codex.bat"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "logo.png",
+      "artifactName": "Doomsheek-code-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Doomsheek code",
+      "uninstallDisplayName": "Doomsheek code",
+      "license": "build/license.txt",
+      "include": "build/installer.nsh",
+      "runAfterFinish": true,
+      "menuCategory": "Doomsheek code"
+    }
+  }
+}

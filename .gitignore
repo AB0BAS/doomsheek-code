@@ -1,0 +1,20 @@
+# Build artifacts
+dist/
+build/winCodeSign-2.6.0/
+
+# Dependencies
+node_modules/
+
+# Local logs / scratchpad
+electron-launch.log
+rendertest.txt
+_*.txt
+FIXES.md
+run_codex.bat
+src/renderer.backup.js
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
